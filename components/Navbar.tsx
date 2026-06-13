@@ -1,73 +1,69 @@
+'use client'
+import { useState } from 'react'
 import Link from 'next/link'
 
-export default function Footer() {
+export default function Navbar() {
+  const [open, setOpen] = useState(false)
+
   return (
-    <footer className="border-t border-gray-800 bg-[#080D1A] mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <span className="text-xl">⚡</span>
-              <span className="font-bold text-white">
-                Top<span className="text-[#4F6EF7]">AI</span>Tools
-              </span>
+    <nav className="sticky top-0 z-50 border-b border-gray-800 bg-[#0A0F1E]/95 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <span className="text-2xl">⚡</span>
+            <span className="font-bold text-lg text-white">
+              Top<span className="text-[#4F6EF7]">AI</span>Tools
+            </span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-6">
+            <Link href="/tools" className="text-gray-400 hover:text-white text-sm transition-colors">
+              All Tools
             </Link>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              The most comprehensive directory of AI tools. Find, compare, and choose the best AI for your needs.
-            </p>
+            <Link href="/compare" className="text-gray-400 hover:text-white text-sm transition-colors">
+              Compare
+            </Link>
+            <Link href="/blog" className="text-gray-400 hover:text-white text-sm transition-colors">
+              Blog
+            </Link>
+            <Link href="/categories" className="text-gray-400 hover:text-white text-sm transition-colors">
+              Categories
+            </Link>
+            <Link
+              href="/tools"
+              className="bg-[#4F6EF7] hover:bg-[#3B56E8] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+            >
+              Explore Tools →
+            </Link>
           </div>
 
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Categories</h4>
-            <ul className="space-y-2 text-sm text-gray-500">
-              {['Writing & Text', 'Image Generation', 'Video Editing', 'Coding & Dev', 'Research'].map((cat) => (
-                <li key={cat}>
-                  <Link href="/categories" className="hover:text-[#4F6EF7] transition-colors">{cat}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm text-gray-500">
-              {[
-                { label: 'All AI Tools', href: '/tools' },
-                { label: 'Compare Tools', href: '/compare' },
-                { label: 'Blog & Guides', href: '/blog' },
-                { label: 'Best Free AI', href: '/blog/best-free-ai-tools-2026' },
-              ].map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="hover:text-[#4F6EF7] transition-colors">{link.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Top Comparisons</h4>
-            <ul className="space-y-2 text-sm text-gray-500">
-              {[
-                { label: 'ChatGPT vs Claude', href: '/blog/chatgpt-vs-claude-vs-gemini-2026' },
-                { label: 'Midjourney vs DALL-E', href: '/blog/midjourney-vs-dalle3-best-ai-image-generator' },
-                { label: 'Perplexity vs ChatGPT', href: '/blog/perplexity-vs-chatgpt-research' },
-              ].map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="hover:text-[#4F6EF7] transition-colors">{link.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="md:hidden text-gray-400 hover:text-white p-2"
+          >
+            {open ? '✕' : '☰'}
+          </button>
         </div>
 
-        <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-600 text-sm">© 2026 TopAITools.com — All rights reserved.</p>
-          <p className="text-gray-600 text-sm">
-            Built with ❤️ for AI enthusiasts worldwide
-          </p>
-        </div>
+        {/* Mobile menu */}
+        {open && (
+          <div className="md:hidden border-t border-gray-800 py-4 space-y-3">
+            {['Tools', 'Compare', 'Blog', 'Categories'].map((item) => (
+              <Link
+                key={item}
+                href={`/${item.toLowerCase()}`}
+                onClick={() => setOpen(false)}
+                className="block text-gray-400 hover:text-white text-sm px-2 py-1 transition-colors"
+              >
+                {item}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
-    </footer>
+    </nav>
   )
 }
-
